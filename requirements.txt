@@ -4,4 +4,4 @@ recommonmark
 sphinx-markdown-tables
 nbsphinx
 sphinx-autobuild
-sphinx-rtd-theme
+karma_sphinx_theme
