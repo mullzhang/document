@@ -1,0 +1,19 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Research
+    chapters:
+    - file: research/quantum_annealing/intro
+      sections:
+      - file: research/quantum_annealing/dwave/intro
+        sections:
+        - file: research/quantum_annealing/dwave/chain_break_resolution
+        - file: research/quantum_annealing/dwave/greedy
+        - file: research/quantum_annealing/dwave/postprocess
+        - file: research/quantum_annealing/dwave/qpu_access_time
+      - file: research/quantum_annealing/hybrid_algo/intro
+        sections:
+        - file: research/quantum_annealing/hybrid_algo/bfh_algo

@@ -1,7 +1,0 @@
-sphinx
-commonmark
-recommonmark
-sphinx-markdown-tables
-nbsphinx
-sphinx-autobuild
-karma_sphinx_theme

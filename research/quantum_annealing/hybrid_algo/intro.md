@@ -1,0 +1,4 @@
+# Hybrid Algorithm
+
+```{tableofcontents}
+```
