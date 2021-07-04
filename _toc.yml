@@ -2,18 +2,23 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: intro
+root: index
 parts:
   - caption: Research
     chapters:
-    - file: research/quantum_annealing/intro
+    - file: research/graph_theory/index
       sections:
-      - file: research/quantum_annealing/dwave/intro
+      - file: research/graph_theory/community/index
+        sections:
+        - file: research/graph_theory/community/modularity
+    - file: research/quantum_annealing/index
+      sections:
+      - file: research/quantum_annealing/dwave/index
         sections:
         - file: research/quantum_annealing/dwave/chain_break_resolution
         - file: research/quantum_annealing/dwave/greedy
         - file: research/quantum_annealing/dwave/postprocess
         - file: research/quantum_annealing/dwave/qpu_access_time
-      - file: research/quantum_annealing/hybrid_algo/intro
+      - file: research/quantum_annealing/hybrid_algo/index
         sections:
         - file: research/quantum_annealing/hybrid_algo/bfh_algo
