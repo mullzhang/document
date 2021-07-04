@@ -22,3 +22,4 @@ parts:
       - file: research/quantum_annealing/hybrid_algo/index
         sections:
         - file: research/quantum_annealing/hybrid_algo/bfh_algo
+        - file: research/quantum_annealing/hybrid_algo/count_qpu_access_qbsolv
