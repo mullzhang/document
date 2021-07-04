@@ -6,11 +6,18 @@ root: index
 parts:
   - caption: Research
     chapters:
+
     - file: research/graph_theory/index
       sections:
       - file: research/graph_theory/community/index
         sections:
         - file: research/graph_theory/community/modularity
+
+    - file: research/machine_learning/index
+      sections:
+      - file: research/machine_learning/differential_privacy
+      - file: research/machine_learning/federated_learning
+
     - file: research/quantum_annealing/index
       sections:
       - file: research/quantum_annealing/dwave/index
