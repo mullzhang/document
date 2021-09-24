@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Graph Thoery &#8212; mullzhang&#39;s notes</title>
+    <title>Modularity &#8212; mullzhang&#39;s notes</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -49,10 +49,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Modularity" href="modularity.html" />
-    <link rel="prev" title="SAT filter" href="../data_structure/probabilistic_data_structure/sat_filter.html" />
+    <link rel="next" title="Elimination Graph" href="elimination_graph.html" />
+    <link rel="prev" title="Graph Thoery" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -133,7 +135,7 @@
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+  <a class="reference internal" href="index.html">
    Graph Thoery
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
@@ -141,9 +143,9 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="modularity.html">
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Modularity
     </a>
    </li>
@@ -317,7 +319,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/research/graph_theory/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../../_sources/research/graph_theory/modularity.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -337,7 +339,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/graph_theory/index.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/graph_theory/modularity.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -358,6 +360,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   モジュラリティとは
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -366,12 +386,44 @@
         
               <div>
                 
-  <div class="section" id="graph-thoery">
-<h1>Graph Thoery<a class="headerlink" href="#graph-thoery" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modularity.html">Modularity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="elimination_graph.html">Elimination Graph</a></li>
+  <div class="section" id="modularity">
+<h1>Modularity<a class="headerlink" href="#modularity" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>モジュラリティとは<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>モジュラリティは、ランダムに結合されたネットワークとの系統的な偏差によって、分割の質を測る指標である。</p>
+<p><span class="math notranslate nohighlight">\(N\)</span>個のノードと<span class="math notranslate nohighlight">\(L\)</span>個のリンクからなるネットワークを<span class="math notranslate nohighlight">\(C\)</span>個のコミュニティに分割することを考える。
+コミュニティ<span class="math notranslate nohighlight">\(c\)</span>は、<span class="math notranslate nohighlight">\(N_c\)</span>個のノードと<span class="math notranslate nohighlight">\(L_c\)</span>個のリンクを持つ。</p>
+<p>部分グラフ<span class="math notranslate nohighlight">\(g_c\)</span>がコミュニティであるかを測る指標として、</p>
+<div class="math notranslate nohighlight">
+\[
+M_c = \frac{1}{2L} \sum_{(i,j) \in g_c} \left( A_{ij} - p_{ij} \right)
+\]</div>
+<p>を求める。ここで、<span class="math notranslate nohighlight">\(A_{ij}\)</span>は隣接行列の要素であり、ノード<span class="math notranslate nohighlight">\(i,j\)</span>間にリンクが存在するときのみ1をとる。重み付きネットワークの場合、<span class="math notranslate nohighlight">\(A_{ij}\)</span>はその重みとなる。
+<span class="math notranslate nohighlight">\(p_{ij}\)</span>は、各ノードが結合されるノードをランダムに選ぶと仮定するとき(Configuration model)、ノード<span class="math notranslate nohighlight">\(i\)</span>(次数<span class="math notranslate nohighlight">\(k_i\)</span>)とノード<span class="math notranslate nohighlight">\(j\)</span>(次数<span class="math notranslate nohighlight">\(k_j\)</span>)の間にあると想定されるリンクの数であり、</p>
+<div class="math notranslate nohighlight">
+\[
+p_{ij} = \frac{k_i k_j}{2L}
+\]</div>
+<p>と表される。ノード<span class="math notranslate nohighlight">\(i\)</span>がノード<span class="math notranslate nohighlight">\(j\)</span>の<span class="math notranslate nohighlight">\(k_j\)</span>本のリンクとつながる確率は<span class="math notranslate nohighlight">\(k_j/2L\)</span>であり、ノード<span class="math notranslate nohighlight">\(i\)</span>の次数が<span class="math notranslate nohighlight">\(k_i\)</span>であることから、<span class="math notranslate nohighlight">\(p_{ij} = k_i \times k_j/2L\)</span>となる。</p>
+<p><span class="math notranslate nohighlight">\(M_c&gt;0\)</span>のとき、<span class="math notranslate nohighlight">\(g_c\)</span>はランダムに結合されたネットワークに想定されるよりも多くのリンクを持つことになり、モジュラリティの値が高いほど良い分割を意味する。
+<span class="math notranslate nohighlight">\(M_c=0\)</span>のとき、<span class="math notranslate nohighlight">\(g_c\)</span>はランダム時と同程度の結びつきであり、<span class="math notranslate nohighlight">\(M_c &lt; 0\)</span>のときは、コミュニティになり得ない。</p>
+<p>上の式から、<span class="math notranslate nohighlight">\(M_c\)</span>はコミュニティ<span class="math notranslate nohighlight">\(g_c\)</span>内のノードの総次数<span class="math notranslate nohighlight">\(k_c\)</span>を用いて、以下のように変形できる。</p>
+<div class="math notranslate nohighlight">
+\[
+M_c = \frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2
+\]</div>
+<p>以上をまとめると、ネットワーク全体を<span class="math notranslate nohighlight">\(C\)</span>個のコミュニティに分割するとき、この分割のモジュラリティは、各コミュニティの<span class="math notranslate nohighlight">\(M_c\)</span>の総和</p>
+<div class="math notranslate nohighlight">
+\[
+M = \sum_{c=1}^C M_c = \sum_{c=1}^C \left( \frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2 \right)
+\]</div>
+<p>によって定義される。</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Albert-Laszlo Barabasi, “Network Science”, 第9章 コミュニティ.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Configuration_model">Configuration model, Wikipedia.</a></p></li>
 </ul>
 </div>
 </div>
@@ -401,8 +453,8 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../data_structure/probabilistic_data_structure/sat_filter.html" title="previous page">SAT filter</a>
-    <a class='right-next' id="next-link" href="modularity.html" title="next page">Modularity</a>
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Graph Thoery</a>
+    <a class='right-next' id="next-link" href="elimination_graph.html" title="next page">Elimination Graph</a>
 
         </div>
         

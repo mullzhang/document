@@ -9,4 +9,6 @@
 ## References
 
 ```{bibliography}
+:style: unsrtalpha
+:filter: docname in docnames
 ```

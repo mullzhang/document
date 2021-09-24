@@ -5,53 +5,54 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to mullzhang’s notes &#8212; mullzhang&#39;s notes</title>
+    <title>Probabilistic data structure &#8212; mullzhang&#39;s notes</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data structure" href="research/data_structure/index.html" />
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Bloom filter" href="bloom_filter.html" />
+    <link rel="prev" title="Data structure" href="../index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -68,20 +69,20 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="#">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
       
       
       <h1 class="site-logo" id="site-title">mullzhang's notes</h1>
       
     </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../index.html">
    Welcome to mullzhang’s notes
   </a>
  </li>
@@ -91,39 +92,39 @@
   Research
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="research/data_structure/index.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../index.html">
    Data structure
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="research/data_structure/probabilistic_data_structure/index.html">
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="current reference internal" href="#">
      Probabilistic data structure
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
     <label for="toctree-checkbox-2">
      <i class="fas fa-chevron-down">
      </i>
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/data_structure/probabilistic_data_structure/bloom_filter.html">
+      <a class="reference internal" href="bloom_filter.html">
        Bloom filter
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/data_structure/probabilistic_data_structure/cuckoo_filter.html">
+      <a class="reference internal" href="cuckoo_filter.html">
        Cuckoo filter
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/data_structure/probabilistic_data_structure/sat_filter.html">
+      <a class="reference internal" href="sat_filter.html">
        SAT filter
       </a>
      </li>
@@ -132,7 +133,7 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="research/graph_theory/index.html">
+  <a class="reference internal" href="../../graph_theory/index.html">
    Graph Thoery
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
@@ -142,19 +143,19 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="research/graph_theory/modularity.html">
+    <a class="reference internal" href="../../graph_theory/modularity.html">
      Modularity
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="research/graph_theory/elimination_graph.html">
+    <a class="reference internal" href="../../graph_theory/elimination_graph.html">
      Elimination Graph
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="research/machine_learning/index.html">
+  <a class="reference internal" href="../../machine_learning/index.html">
    Machine Learning
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
@@ -164,19 +165,19 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="research/machine_learning/differential_privacy.html">
+    <a class="reference internal" href="../../machine_learning/differential_privacy.html">
      Differential Privacy
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="research/machine_learning/federated_learning.html">
+    <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="research/numerical_calculation/index.html">
+  <a class="reference internal" href="../../numerical_calculation/index.html">
    Numerical Calculation
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
@@ -186,14 +187,14 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="research/numerical_calculation/sparse_simultaneous_equations.html">
+    <a class="reference internal" href="../../numerical_calculation/sparse_simultaneous_equations.html">
      Sparse simultaneous equations
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="research/quantum_annealing/index.html">
+  <a class="reference internal" href="../../quantum_annealing/index.html">
    Quantum Annealing
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
@@ -203,7 +204,7 @@
   </label>
   <ul>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="research/quantum_annealing/dwave/index.html">
+    <a class="reference internal" href="../../quantum_annealing/dwave/index.html">
      D-Wave Quantum Annealer
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
@@ -213,29 +214,29 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/dwave/chain_break_resolution.html">
+      <a class="reference internal" href="../../quantum_annealing/dwave/chain_break_resolution.html">
        Chain-Break Resolution
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/dwave/greedy.html">
+      <a class="reference internal" href="../../quantum_annealing/dwave/greedy.html">
        Greedy descent as a post-processing
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/dwave/postprocess.html">
+      <a class="reference internal" href="../../quantum_annealing/dwave/postprocess.html">
        Postprocessing
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/dwave/qpu_access_time.html">
+      <a class="reference internal" href="../../quantum_annealing/dwave/qpu_access_time.html">
        QPU access time
       </a>
      </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="research/quantum_annealing/hybrid_algo/index.html">
+    <a class="reference internal" href="../../quantum_annealing/hybrid_algo/index.html">
      Hybrid Algorithm
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
@@ -245,19 +246,19 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/hybrid_algo/bfh_algo.html">
+      <a class="reference internal" href="../../quantum_annealing/hybrid_algo/bfh_algo.html">
        Bit-flip Heuristic Algorithm
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/hybrid_algo/count_qpu_access_qbsolv.html">
+      <a class="reference internal" href="../../quantum_annealing/hybrid_algo/count_qpu_access_qbsolv.html">
        Counting QPU Access in Qbsolv
       </a>
      </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="research/quantum_annealing/unfair_sampling/index.html">
+    <a class="reference internal" href="../../quantum_annealing/unfair_sampling/index.html">
      Unfair sampling
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
@@ -267,7 +268,7 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="research/quantum_annealing/unfair_sampling/sat_filter.html">
+      <a class="reference internal" href="../../quantum_annealing/unfair_sampling/sat_filter.html">
        SAT filter
       </a>
      </li>
@@ -316,7 +317,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../../../_sources/research/data_structure/probabilistic_data_structure/index.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -336,7 +337,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/data_structure/probabilistic_data_structure/index.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -365,53 +366,13 @@
         
               <div>
                 
-  <div class="section" id="welcome-to-mullzhang-s-notes">
-<h1>Welcome to mullzhang’s notes<a class="headerlink" href="#welcome-to-mullzhang-s-notes" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="probabilistic-data-structure">
+<h1>Probabilistic data structure<a class="headerlink" href="#probabilistic-data-structure" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Research</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="research/data_structure/index.html">Data structure</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="research/data_structure/probabilistic_data_structure/index.html">Probabilistic data structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="research/data_structure/probabilistic_data_structure/bloom_filter.html">Bloom filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="research/data_structure/probabilistic_data_structure/cuckoo_filter.html">Cuckoo filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="research/data_structure/probabilistic_data_structure/sat_filter.html">SAT filter</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="research/graph_theory/index.html">Graph Thoery</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="research/graph_theory/modularity.html">Modularity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="research/graph_theory/elimination_graph.html">Elimination Graph</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="research/machine_learning/index.html">Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="research/machine_learning/differential_privacy.html">Differential Privacy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="research/machine_learning/federated_learning.html">Federated Learning</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="research/numerical_calculation/index.html">Numerical Calculation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="research/numerical_calculation/sparse_simultaneous_equations.html">Sparse simultaneous equations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="research/quantum_annealing/index.html">Quantum Annealing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="research/quantum_annealing/dwave/index.html">D-Wave Quantum Annealer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/dwave/chain_break_resolution.html">Chain-Break Resolution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/dwave/greedy.html">Greedy descent as a post-processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/dwave/postprocess.html">Postprocessing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/dwave/qpu_access_time.html">QPU access time</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="research/quantum_annealing/hybrid_algo/index.html">Hybrid Algorithm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/hybrid_algo/bfh_algo.html">Bit-flip Heuristic Algorithm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/hybrid_algo/count_qpu_access_qbsolv.html">Counting QPU Access in Qbsolv</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="research/quantum_annealing/unfair_sampling/index.html">Unfair sampling</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="research/quantum_annealing/unfair_sampling/sat_filter.html">SAT filter</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="bloom_filter.html">Bloom filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuckoo_filter.html">Cuckoo filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sat_filter.html">SAT filter</a></li>
 </ul>
 </div>
 </div>
@@ -429,7 +390,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./."
+            path: "./research/data_structure/probabilistic_data_structure"
         },
         predefinedOutput: true
     }
@@ -441,7 +402,8 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='right-next' id="next-link" href="research/data_structure/index.html" title="next page">Data structure</a>
+    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">Data structure</a>
+    <a class='right-next' id="next-link" href="bloom_filter.html" title="next page">Bloom filter</a>
 
         </div>
         
@@ -463,7 +425,7 @@
       </div>
     </div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
   
   </body>

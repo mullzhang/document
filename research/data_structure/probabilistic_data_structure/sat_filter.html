@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community &#8212; mullzhang&#39;s notes</title>
+    <title>SAT filter &#8212; mullzhang&#39;s notes</title>
     
   <link href="../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,8 @@
     <script async="async" src="../../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Modularity" href="modularity.html" />
-    <link rel="prev" title="Graph Thoery" href="../index.html" />
+    <link rel="next" title="Graph Thoery" href="../../graph_theory/index.html" />
+    <link rel="prev" title="Cuckoo filter" href="cuckoo_filter.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -95,7 +95,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../index.html">
-   Graph Thoery
+   Data structure
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -104,18 +104,28 @@
   </label>
   <ul class="current">
    <li class="toctree-l2 current active has-children">
-    <a class="current reference internal" href="#">
-     Community
+    <a class="reference internal" href="index.html">
+     Probabilistic data structure
     </a>
     <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
     <label for="toctree-checkbox-2">
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul>
+    <ul class="current">
      <li class="toctree-l3">
-      <a class="reference internal" href="modularity.html">
-       Modularity
+      <a class="reference internal" href="bloom_filter.html">
+       Bloom filter
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="cuckoo_filter.html">
+       Cuckoo filter
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       SAT filter
       </a>
      </li>
     </ul>
@@ -123,11 +133,33 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../machine_learning/index.html">
-   Machine Learning
+  <a class="reference internal" href="../../graph_theory/index.html">
+   Graph Thoery
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../graph_theory/modularity.html">
+     Modularity
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../graph_theory/elimination_graph.html">
+     Elimination Graph
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../machine_learning/index.html">
+   Machine Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -145,11 +177,28 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../numerical_calculation/index.html">
+   Numerical Calculation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../numerical_calculation/sparse_simultaneous_equations.html">
+     Sparse simultaneous equations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../../quantum_annealing/index.html">
    Quantum Annealing
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-  <label for="toctree-checkbox-4">
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -158,8 +207,8 @@
     <a class="reference internal" href="../../quantum_annealing/dwave/index.html">
      D-Wave Quantum Annealer
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -190,8 +239,8 @@
     <a class="reference internal" href="../../quantum_annealing/hybrid_algo/index.html">
      Hybrid Algorithm
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-    <label for="toctree-checkbox-6">
+    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -204,6 +253,23 @@
      <li class="toctree-l3">
       <a class="reference internal" href="../../quantum_annealing/hybrid_algo/count_qpu_access_qbsolv.html">
        Counting QPU Access in Qbsolv
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../quantum_annealing/unfair_sampling/index.html">
+     Unfair sampling
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../quantum_annealing/unfair_sampling/sat_filter.html">
+       SAT filter
       </a>
      </li>
     </ul>
@@ -251,7 +317,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../../_sources/research/graph_theory/community/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../../../_sources/research/data_structure/probabilistic_data_structure/sat_filter.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -271,7 +337,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/graph_theory/community/index.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/data_structure/probabilistic_data_structure/sat_filter.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -292,6 +358,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reference">
+   Reference
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -300,12 +379,17 @@
         
               <div>
                 
-  <div class="section" id="community">
-<h1>Community<a class="headerlink" href="#community" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modularity.html">Modularity</a></li>
-</ul>
+  <div class="section" id="sat-filter">
+<h1>SAT filter<a class="headerlink" href="#sat-filter" title="Permalink to this headline">¶</a></h1>
+<p>SATフィルタ<span id="id1">[<a class="reference internal" href="#id9">Weaver <em>et al.</em>, 2012</a>]</span>は確率的データ構造のひとつである。</p>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<p id="id2"><dl class="citation">
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id1">WRM+12</a></span></dt>
+<dd><p>Sean A. Weaver, Katrina J. Ray, Victor W. Marek, Andrew J. Mayer, and Alden K. Walker. Satisfiability-based Set Membership Filters. <em>Journal on Satisfiability, Boolean Modeling and Computation</em>, 8(3-4):129–148, January 2012. URL: <a class="reference external" href="https://content.iospress.com/articles/journal-on-satisfiability-boolean-modeling-and-computation/sat190095">https://content.iospress.com/articles/journal-on-satisfiability-boolean-modeling-and-computation/sat190095</a> (visited on 2021-03-07), <a class="reference external" href="https://doi.org/10.3233/SAT190095">doi:10.3233/SAT190095</a>.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 
@@ -322,7 +406,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./research/graph_theory/community"
+            path: "./research/data_structure/probabilistic_data_structure"
         },
         predefinedOutput: true
     }
@@ -334,8 +418,8 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">Graph Thoery</a>
-    <a class='right-next' id="next-link" href="modularity.html" title="next page">Modularity</a>
+    <a class='left-prev' id="prev-link" href="cuckoo_filter.html" title="previous page">Cuckoo filter</a>
+    <a class='right-next' id="next-link" href="../../graph_theory/index.html" title="next page">Graph Thoery</a>
 
         </div>
         

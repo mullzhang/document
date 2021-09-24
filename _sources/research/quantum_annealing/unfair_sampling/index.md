@@ -1,4 +1,4 @@
-# Community
+# Unfair sampling
 
 ```{tableofcontents}
 ```

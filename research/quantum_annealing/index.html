@@ -52,7 +52,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="D-Wave Quantum Annealer" href="dwave/index.html" />
-    <link rel="prev" title="Federated Learning" href="../machine_learning/federated_learning.html" />
+    <link rel="prev" title="Sparse simultaneous equations" href="../numerical_calculation/sparse_simultaneous_equations.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -94,8 +94,8 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../graph_theory/index.html">
-   Graph Thoery
+  <a class="reference internal" href="../data_structure/index.html">
+   Data structure
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -104,8 +104,8 @@
   </label>
   <ul>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../graph_theory/community/index.html">
-     Community
+    <a class="reference internal" href="../data_structure/probabilistic_data_structure/index.html">
+     Probabilistic data structure
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
     <label for="toctree-checkbox-2">
@@ -114,8 +114,18 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="../graph_theory/community/modularity.html">
-       Modularity
+      <a class="reference internal" href="../data_structure/probabilistic_data_structure/bloom_filter.html">
+       Bloom filter
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../data_structure/probabilistic_data_structure/cuckoo_filter.html">
+       Cuckoo filter
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../data_structure/probabilistic_data_structure/sat_filter.html">
+       SAT filter
       </a>
      </li>
     </ul>
@@ -123,11 +133,33 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../machine_learning/index.html">
-   Machine Learning
+  <a class="reference internal" href="../graph_theory/index.html">
+   Graph Thoery
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../graph_theory/modularity.html">
+     Modularity
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../graph_theory/elimination_graph.html">
+     Elimination Graph
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../machine_learning/index.html">
+   Machine Learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -144,12 +176,29 @@
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../numerical_calculation/index.html">
+   Numerical Calculation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../numerical_calculation/sparse_simultaneous_equations.html">
+     Sparse simultaneous equations
+    </a>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 current active has-children">
   <a class="current reference internal" href="#">
    Quantum Annealing
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-  <label for="toctree-checkbox-4">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -158,8 +207,8 @@
     <a class="reference internal" href="dwave/index.html">
      D-Wave Quantum Annealer
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -190,8 +239,8 @@
     <a class="reference internal" href="hybrid_algo/index.html">
      Hybrid Algorithm
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-    <label for="toctree-checkbox-6">
+    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -204,6 +253,23 @@
      <li class="toctree-l3">
       <a class="reference internal" href="hybrid_algo/count_qpu_access_qbsolv.html">
        Counting QPU Access in Qbsolv
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="unfair_sampling/index.html">
+     Unfair sampling
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="unfair_sampling/sat_filter.html">
+       SAT filter
       </a>
      </li>
     </ul>
@@ -316,6 +382,10 @@
 <li class="toctree-l2"><a class="reference internal" href="hybrid_algo/count_qpu_access_qbsolv.html">Counting QPU Access in Qbsolv</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="unfair_sampling/index.html">Unfair sampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="unfair_sampling/sat_filter.html">SAT filter</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -345,7 +415,7 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../machine_learning/federated_learning.html" title="previous page">Federated Learning</a>
+    <a class='left-prev' id="prev-link" href="../numerical_calculation/sparse_simultaneous_equations.html" title="previous page">Sparse simultaneous equations</a>
     <a class='right-next' id="next-link" href="dwave/index.html" title="next page">D-Wave Quantum Annealer</a>
 
         </div>

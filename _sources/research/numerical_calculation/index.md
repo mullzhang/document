@@ -1,4 +1,4 @@
-# Quantum Annealing
+# Numerical Calculation
 
 ```{tableofcontents}
 ```
