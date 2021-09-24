@@ -7,16 +7,27 @@ parts:
   - caption: Research
     chapters:
 
+    - file: research/data_structure/index
+      sections:
+      - file: research/data_structure/probabilistic_data_structure/index
+        sections:
+        - file: research/data_structure/probabilistic_data_structure/bloom_filter
+        - file: research/data_structure/probabilistic_data_structure/cuckoo_filter
+        - file: research/data_structure/probabilistic_data_structure/sat_filter
+
     - file: research/graph_theory/index
       sections:
-      - file: research/graph_theory/community/index
-        sections:
-        - file: research/graph_theory/community/modularity
+      - file: research/graph_theory/modularity
+      - file: research/graph_theory/elimination_graph
 
     - file: research/machine_learning/index
       sections:
       - file: research/machine_learning/differential_privacy
       - file: research/machine_learning/federated_learning
+
+    - file: research/numerical_calculation/index
+      sections:
+      - file: research/numerical_calculation/sparse_simultaneous_equations
 
     - file: research/quantum_annealing/index
       sections:
@@ -30,3 +41,6 @@ parts:
         sections:
         - file: research/quantum_annealing/hybrid_algo/bfh_algo
         - file: research/quantum_annealing/hybrid_algo/count_qpu_access_qbsolv
+      - file: research/quantum_annealing/unfair_sampling/index
+        sections:
+        - file: research/quantum_annealing/unfair_sampling/sat_filter

@@ -1,4 +1,4 @@
-# Quantum Annealing
+# Data structure
 
 ```{tableofcontents}
 ```

@@ -14,13 +14,13 @@ M_c = \frac{1}{2L} \sum_{(i,j) \in g_c} \left( A_{ij} - p_{ij} \right)
 $$
 
 を求める。ここで、$A_{ij}$は隣接行列の要素であり、ノード$i,j$間にリンクが存在するときのみ1をとる。重み付きネットワークの場合、$A_{ij}$はその重みとなる。
-$p_{ij}$は、各ノードが結合されるノードをランダムに選ぶと仮定したときに、ノード$i$(次数$k_i$)とノード$j$(次数$k_j$)の間にあると想定されるリンクの数であり、
+$p_{ij}$は、各ノードが結合されるノードをランダムに選ぶと仮定するとき(Configuration model)、ノード$i$(次数$k_i$)とノード$j$(次数$k_j$)の間にあると想定されるリンクの数であり、
 
 $$
 p_{ij} = \frac{k_i k_j}{2L}
 $$
 
-と表される。ノード$i$がノード$j$の$k_j$本のリンクとつながる確率は$k_j/2L$であり、ノード$i$の次数が$k_i$であることから、$p_{ij} = k_i \times k_j/2L$となる。詳しくは Configuration model[^2]を参照。
+と表される。ノード$i$がノード$j$の$k_j$本のリンクとつながる確率は$k_j/2L$であり、ノード$i$の次数が$k_i$であることから、$p_{ij} = k_i \times k_j/2L$となる。
 
 $M_c>0$のとき、$g_c$はランダムに結合されたネットワークに想定されるよりも多くのリンクを持つことになり、モジュラリティの値が高いほど良い分割を意味する。
 $M_c=0$のとき、$g_c$はランダム時と同程度の結びつきであり、$M_c < 0$のときは、コミュニティになり得ない。
@@ -41,5 +41,5 @@ $$
 
 ## References
 
-- [^1]: Albert‐L´aszl´o Barab´asi, "Network Science", 第9章 コミュニティ.
-- [^2]: [Configuration model, Wikipedia.](https://en.wikipedia.org/wiki/Configuration_model)
+- Albert-Laszlo Barabasi, "Network Science", 第9章 コミュニティ.
+- [Configuration model, Wikipedia.](https://en.wikipedia.org/wiki/Configuration_model)

@@ -1,16 +1,67 @@
+
+@article{azinovic2017,
+  title = {Assessment of {{Quantum Annealing}} for the {{Construction}} of {{Satisfiability Filters}}},
+  author = {Azinovi{\'c}, Marlon and Herr, Daniel and Heim, Bettina and Brown, Ethan and Troyer, Matthias},
+  year = {2017},
+  month = apr,
+  journal = {SciPost Physics},
+  volume = {2},
+  number = {2},
+  pages = {013},
+  issn = {2542-4653},
+  doi = {10.21468/SciPostPhys.2.2.013},
+  url = {https://scipost.org/10.21468/SciPostPhys.2.2.013},
+  urldate = {2021-03-07},
+  abstract = {SciPost Journals Publication Detail SciPost Phys. 2, 013 (2017) Assessment of Quantum Annealing for the Construction of Satisfiability Filters},
+  language = {en},
+  file = {/Users/maruzhang/Zotero/storage/AU7T5UIK/Azinović et al. - 2017 - Assessment of Quantum Annealing for the Constructi.pdf}
+}
+
 @article{chehimi2021,
   title = {Quantum {{Federated Learning}} with {{Quantum Data}}},
   author = {Chehimi, Mahdi and Saad, Walid},
   year = {2021},
   month = may,
-  url = {http://arxiv.org/abs/2106.00005},
-  urldate = {2021-06-02},
-  archiveprefix = {arXiv},
+  journal = {arXiv:2106.00005 [quant-ph]},
   eprint = {2106.00005},
   eprinttype = {arxiv},
-  journal = {arXiv:2106.00005 [quant-ph]},
+  primaryclass = {quant-ph},
+  url = {http://arxiv.org/abs/2106.00005},
+  urldate = {2021-06-02},
+  abstract = {Quantum machine learning (QML) has emerged as a promising field that leans on the developments in quantum computing to explore large complex machine learning problems. Recently, some purely quantum machine learning models were proposed such as the quantum convolutional neural networks (QCNN) to perform classification on quantum data. However, all of the existing QML models rely on centralized solutions that cannot scale well for large-scale and distributed quantum networks. Hence, it is apropos to consider more practical quantum federated learning (QFL) solutions tailored towards emerging quantum network architectures. Indeed, developing QFL frameworks for quantum networks is critical given the fragile nature of computing qubits and the difficulty of transferring them. On top of its practical momentousness, QFL allows for distributed quantum learning by leveraging existing wireless communication infrastructure. This paper proposes the first fully quantum federated learning framework that can operate over quantum data and, thus, share the learning of quantum circuit parameters in a decentralized manner. First, given the lack of existing quantum federated datasets in the literature, the proposed framework begins by generating the first quantum federated dataset, with a hierarchical data format, for distributed quantum networks. Then, clients sharing QCNN models are fed with the quantum data to perform a classification task. Subsequently, the server aggregates the learnable quantum circuit parameters from clients and performs federated averaging. Extensive experiments are conducted to evaluate and validate the effectiveness of the proposed QFL solution. This work is the first to combine Google's TensorFlow Federated and TensorFlow Quantum in a practical implementation.},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning,Computer Science - Networking and Internet Architecture,Quantum Physics},
-  primaryclass = {quant-ph}
+  file = {/Users/maruzhang/Zotero/storage/X4ADW9YA/Chehimi and Saad - 2021 - Quantum Federated Learning with Quantum Data.pdf;/Users/maruzhang/Zotero/storage/Y79YA6YX/2106.html}
+}
+
+@inproceedings{douglass2015,
+  title = {Constructing {{SAT Filters}} with a {{Quantum Annealer}}},
+  booktitle = {Theory and {{Applications}} of {{Satisfiability Testing}} -- {{SAT}} 2015},
+  author = {Douglass, Adam and King, Andrew D. and Raymond, Jack},
+  editor = {Heule, Marijn and Weaver, Sean},
+  year = {2015},
+  series = {Lecture {{Notes}} in {{Computer Science}}},
+  pages = {104--120},
+  publisher = {{Springer International Publishing}},
+  address = {{Cham}},
+  doi = {10.1007/978-3-319-24318-4_9},
+  abstract = {SAT filters are a novel and compact data structure that can be used to quickly query a word for membership in a fixed set. They have the potential to store more information in a fixed storage limit than a Bloom filter. Constructing a SAT filter requires sampling diverse solutions to randomly constructed constraint satisfaction instances, but there is flexibility in the choice of constraint satisfaction problem. Presented here is a case study of SAT filter construction with a focus on constraint satisfaction problems based on MAX-CUT clauses (Not-all-equal 3-SAT, 2-in-4-SAT, etc.) and frustrated cycles in the Ising model. Solutions are sampled using a D-Wave quantum annealer, and results are measured against classical approaches. The SAT variants studied are of interest in the context of SAT filters, independent of the solvers used.},
+  isbn = {978-3-319-24318-4},
+  language = {en},
+  keywords = {Constraint satisfaction problem,Ising model,Maximum cut,Quantum annealing,Sampling,SAT filter},
+  file = {/Users/maruzhang/Zotero/storage/RKHXMJHY/Douglass et al. - 2015 - Constructing SAT Filters with a Quantum Annealer.pdf}
+}
+
+@article{matsushita2013,
+  title = {Low-Rank Matrix Reconstruction and Clustering via Approximate Message Passing},
+  author = {Matsushita, Ryosuke and Tanaka, Toshiyuki},
+  year = {2013},
+  journal = {Advances in Neural Information Processing Systems},
+  volume = {26},
+  url = {https://papers.nips.cc/paper/2013/hash/5b69b9cb83065d403869739ae7f0995e-Abstract.html},
+  urldate = {2021-07-29},
+  language = {en},
+  file = {/Users/maruzhang/Zotero/storage/ZUKYIJEH/Matsushita and Tanaka - 2013 - Low-rank matrix reconstruction and clustering via .pdf;/Users/maruzhang/Zotero/storage/YHSWTYDV/5b69b9cb83065d403869739ae7f0995e-Abstract.html}
 }
 
 @article{mcmahan2017,
@@ -18,14 +69,16 @@
   author = {McMahan, H. Brendan and Moore, Eider and Ramage, Daniel and Hampson, Seth and {\noopsort{arcas}}y Arcas, Blaise Ag{\"u}era},
   year = {2017},
   month = feb,
-  url = {http://arxiv.org/abs/1602.05629},
-  urldate = {2021-06-14},
-  archiveprefix = {arXiv},
+  journal = {arXiv:1602.05629 [cs]},
   eprint = {1602.05629},
   eprinttype = {arxiv},
-  journal = {arXiv:1602.05629 [cs]},
+  primaryclass = {cs},
+  url = {http://arxiv.org/abs/1602.05629},
+  urldate = {2021-06-14},
+  abstract = {Modern mobile devices have access to a wealth of data suitable for learning models, which in turn can greatly improve the user experience on the device. For example, language models can improve speech recognition and text entry, and image models can automatically select good photos. However, this rich data is often privacy sensitive, large in quantity, or both, which may preclude logging to the data center and training there using conventional approaches. We advocate an alternative that leaves the training data distributed on the mobile devices, and learns a shared model by aggregating locally-computed updates. We term this decentralized approach Federated Learning. We present a practical method for the federated learning of deep networks based on iterative model averaging, and conduct an extensive empirical evaluation, considering five different model architectures and four datasets. These experiments demonstrate the approach is robust to the unbalanced and non-IID data distributions that are a defining characteristic of this setting. Communication costs are the principal constraint, and we show a reduction in required communication rounds by 10-100x as compared to synchronized stochastic gradient descent.},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning},
-  primaryclass = {cs}
+  file = {/Users/maruzhang/Zotero/storage/PPU7234H/McMahan et al. - 2017 - Communication-Efficient Learning of Deep Networks .pdf}
 }
 
 @article{roth2020,
@@ -33,14 +86,38 @@
   shorttitle = {Federated {{Learning}} for {{Breast Density Classification}}},
   author = {Roth, Holger R. and Chang, Ken and Singh, Praveer and Neumark, Nir and Li, Wenqi and Gupta, Vikash and Gupta, Sharut and Qu, Liangqiong and Ihsani, Alvin and Bizzo, Bernardo C. and Wen, Yuhong and Buch, Varun and Shah, Meesam and Kitamura, Felipe and Mendon{\c c}a, Matheus and Lavor, Vitor and Harouni, Ahmed and Compas, Colin and Tetreault, Jesse and Dogra, Prerna and Cheng, Yan and Erdal, Selnur and White, Richard and Hashemian, Behrooz and Schultz, Thomas and Zhang, Miao and McCarthy, Adam and Yun, B. Min and Sharaf, Elshaimaa and Hoebel, Katharina V. and Patel, Jay B. and Chen, Bryan and Ko, Sean and Leibovitz, Evan and Pisano, Etta D. and Coombs, Laura and Xu, Daguang and Dreyer, Keith J. and Dayan, Ittai and Naidu, Ram C. and Flores, Mona and Rubin, Daniel and {Kalpathy-Cramer}, Jayashree},
   year = {2020},
+  journal = {arXiv:2009.01871 [cs, eess]},
   volume = {12444},
-  pages = {181--191},
-  url = {http://arxiv.org/abs/2009.01871},
-  urldate = {2021-06-14},
-  archiveprefix = {arXiv},
   eprint = {2009.01871},
   eprinttype = {arxiv},
-  journal = {arXiv:2009.01871 [cs, eess]},
+  primaryclass = {cs, eess},
+  pages = {181--191},
+  doi = {10.1007/978-3-030-60548-3_18},
+  url = {http://arxiv.org/abs/2009.01871},
+  urldate = {2021-06-14},
+  abstract = {Building robust deep learning-based models requires large quantities of diverse training data. In this study, we investigate the use of federated learning (FL) to build medical imaging classification models in a real-world collaborative setting. Seven clinical institutions from across the world joined this FL effort to train a model for breast density classification based on Breast Imaging, Reporting \& Data System (BI-RADS). We show that despite substantial differences among the datasets from all sites (mammography system, class distribution, and data set size) and without centralizing data, we can successfully train AI models in federation. The results show that models trained using FL perform 6.3\% on average better than their counterparts trained on an institute's local data alone. Furthermore, we show a 45.8\% relative improvement in the models' generalizability when evaluated on the other participating sites' testing data.},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Computer Vision and Pattern Recognition,Electrical Engineering and Systems Science - Image and Video Processing},
-  primaryclass = {cs, eess}
+  file = {/Users/maruzhang/Zotero/storage/YITCUR89/Roth et al. - 2020 - Federated Learning for Breast Density Classificati.pdf}
 }
+
+@article{weaver2012,
+  title = {Satisfiability-Based {{Set Membership Filters}}},
+  author = {Weaver, Sean A. and Ray, Katrina J. and Marek, Victor W. and Mayer, Andrew J. and Walker, Alden K.},
+  year = {2012},
+  month = jan,
+  journal = {Journal on Satisfiability, Boolean Modeling and Computation},
+  volume = {8},
+  number = {3-4},
+  pages = {129--148},
+  publisher = {{IOS Press}},
+  doi = {10.3233/SAT190095},
+  url = {https://content.iospress.com/articles/journal-on-satisfiability-boolean-modeling-and-computation/sat190095},
+  urldate = {2021-03-07},
+  abstract = {Introduced here is a novel application of Satisfiability (SAT) to the set membership problem with specific focus on efficiently testing whether large sets contain a given element. Such tests can be greatly enhanced via the use of filters , probabilis},
+  language = {en},
+  file = {/Users/maruzhang/Zotero/storage/7QHYIP9W/Weaver et al. - 2012 - Satisfiability-based Set Membership Filters.pdf}
+}
+
+@preamble{ "\newcommand{\noopsort}[1]{} " }
+
