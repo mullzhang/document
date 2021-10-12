@@ -44,3 +44,6 @@ parts:
       - file: research/quantum_annealing/unfair_sampling/index
         sections:
         - file: research/quantum_annealing/unfair_sampling/sat_filter
+      - file: research/quantum_annealing/bayesian_opt/index
+        sections:
+        - file: research/quantum_annealing/bayesian_opt/bocs

@@ -1,0 +1,4 @@
+# Bayesian Optimization
+
+```{tableofcontents}
+```
