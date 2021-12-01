@@ -1,0 +1,4 @@
+# Combinatorial Optimization
+
+```{tableofcontents}
+```

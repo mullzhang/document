@@ -48,6 +48,12 @@ parts:
         sections:
         - file: research/quantum_annealing/bayesian_opt/bocs
 
+    - file: research/combinatorial_optimization/index
+      sections:
+      - file: research/combinatorial_optimization/vehicle_routing_problem/index
+        sections:
+        - file: research/combinatorial_optimization/vehicle_routing_problem/fix_vehicles_ortools
+
   - caption: Develop
     chapters:
 
