@@ -47,3 +47,10 @@ parts:
       - file: research/quantum_annealing/bayesian_opt/index
         sections:
         - file: research/quantum_annealing/bayesian_opt/bocs
+
+  - caption: Develop
+    chapters:
+
+    - file: develop/design_pattern/index
+      sections:
+      - file: develop/design_pattern/observer_pattern
