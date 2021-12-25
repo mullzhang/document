@@ -27,6 +27,7 @@ parts:
 
     - file: research/numerical_calculation/index
       sections:
+      - file: research/numerical_calculation/successive_substitution
       - file: research/numerical_calculation/sparse_simultaneous_equations
 
     - file: research/quantum_annealing/index
