@@ -48,6 +48,9 @@ parts:
       - file: research/quantum_annealing/bayesian_opt/index
         sections:
         - file: research/quantum_annealing/bayesian_opt/bocs
+      - file: research/quantum_annealing/lagrange_method/index
+        sections:
+        - file: research/quantum_annealing/lagrange_method/lagrange_relax
 
     - file: research/combinatorial_optimization/index
       sections:
@@ -57,7 +60,6 @@ parts:
 
   - caption: Develop
     chapters:
-
     - file: develop/design_pattern/index
       sections:
       - file: develop/design_pattern/observer_pattern
