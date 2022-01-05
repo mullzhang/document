@@ -41,7 +41,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -176,6 +176,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../machine_learning/simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -418,7 +423,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -474,7 +479,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -517,7 +522,549 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Greedy descent as a post-processing</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-instance">
+   Problem instance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#embed-post-to-d-wave-solver">
+   Embed &amp; Post to D-Wave solver
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chain-break-resolution">
+   Chain-break resolution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#greedy-descent">
+   Greedy descent
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#results">
+   Results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supplement">
+   Supplement
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="greedy-descent-as-a-post-processing">
+<h1>Greedy descent as a post-processing<a class="headerlink" href="#greedy-descent-as-a-post-processing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="problem-instance">
+<h2>Problem instance<a class="headerlink" href="#problem-instance" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">dimod</span>
+
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">J</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)}</span>
+
+<span class="n">bqm</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BinaryQuadraticModel</span><span class="o">.</span><span class="n">from_ising</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="embed-post-to-d-wave-solver">
+<h2>Embed &amp; Post to D-Wave solver<a class="headerlink" href="#embed-post-to-d-wave-solver" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.system</span> <span class="kn">import</span> <span class="n">DWaveSampler</span>
+<span class="kn">from</span> <span class="nn">dwave.embedding</span> <span class="kn">import</span> <span class="n">embed_bqm</span>
+<span class="kn">from</span> <span class="nn">minorminer</span> <span class="kn">import</span> <span class="n">find_embedding</span>
+<span class="kn">from</span> <span class="nn">minorminer.busclique</span> <span class="kn">import</span> <span class="n">find_clique_embedding</span>
+
+<span class="n">dw_sampler</span> <span class="o">=</span> <span class="n">DWaveSampler</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="s1">&#39;sigu-adv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">bqm</span><span class="o">.</span><span class="n">quadratic</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="o">%</span><span class="k">time</span> embedding = find_clique_embedding(g=dw_sampler.to_networkx_graph(), nodes=N, use_cache=True)
+<span class="o">%</span><span class="k">time</span> bqm_embed = embed_bqm(bqm, embedding, dw_sampler.adjacency)
+
+<span class="c1"># adj = {k: 1 for k in bqm.quadratic.keys()}</span>
+<span class="c1"># %time embedding = find_embedding(adj, dw_sampler.edgelist, random_seed=1, threads=4)</span>
+<span class="c1"># %time bqm_embed = embed_bqm(bqm, embedding, dw_sampler.adjacency)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 226 ms, sys: 16.2 ms, total: 243 ms
+Wall time: 252 ms
+CPU times: user 79 ms, sys: 632 µs, total: 79.6 ms
+Wall time: 79.5 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">raw_sampleset</span> <span class="o">=</span> <span class="n">dw_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm_embed</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 50.1 ms, sys: 860 µs, total: 50.9 ms
+Wall time: 50.4 ms
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="chain-break-resolution">
+<h2>Chain-break resolution<a class="headerlink" href="#chain-break-resolution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.embedding</span> <span class="kn">import</span> <span class="n">unembed_sampleset</span>
+<span class="kn">from</span> <span class="nn">dwave.embedding</span> <span class="kn">import</span> <span class="n">majority_vote</span><span class="p">,</span> <span class="n">weighted_random</span><span class="p">,</span> <span class="n">discard</span><span class="p">,</span> <span class="n">MinimizeEnergy</span>
+
+<span class="n">minimize_energy</span> <span class="o">=</span> <span class="n">MinimizeEnergy</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">embedding</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> sampleset_mj = unembed_sampleset(raw_sampleset, embedding, bqm, chain_break_method=majority_vote)
+<span class="o">%</span><span class="k">time</span> sampleset_wr = unembed_sampleset(raw_sampleset, embedding, bqm, chain_break_method=weighted_random)
+<span class="o">%</span><span class="k">time</span> sampleset_dc = unembed_sampleset(raw_sampleset, embedding, bqm, chain_break_method=discard)
+<span class="o">%</span><span class="k">time</span> sampleset_me = unembed_sampleset(raw_sampleset, embedding, bqm, chain_break_method=minimize_energy)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 73 ms, sys: 23.3 ms, total: 96.3 ms
+Wall time: 47.4 ms
+CPU times: user 115 ms, sys: 24.4 ms, total: 139 ms
+Wall time: 36.5 ms
+CPU times: user 68.9 ms, sys: 11.8 ms, total: 80.7 ms
+Wall time: 20.9 ms
+CPU times: user 4.73 s, sys: 70.8 ms, total: 4.8 s
+Wall time: 4.53 s
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="greedy-descent">
+<h2>Greedy descent<a class="headerlink" href="#greedy-descent" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">greedy</span> <span class="kn">import</span> <span class="n">SteepestDescentSolver</span>
+
+<span class="n">greedy_sampler</span> <span class="o">=</span> <span class="n">SteepestDescentSolver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampleset_mj_greedy</span> <span class="o">=</span> <span class="n">greedy_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">initial_states</span><span class="o">=</span><span class="n">sampleset_mj</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sampleset_wr_greedy</span> <span class="o">=</span> <span class="n">greedy_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">initial_states</span><span class="o">=</span><span class="n">sampleset_wr</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sampleset_dc_greedy</span> <span class="o">=</span> <span class="n">greedy_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">initial_states</span><span class="o">=</span><span class="n">sampleset_dc</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sampleset_me_greedy</span> <span class="o">=</span> <span class="n">greedy_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">initial_states</span><span class="o">=</span><span class="n">sampleset_me</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sampleset_rand_init</span> <span class="o">=</span> <span class="n">greedy_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">initial_states_generator</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">18</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.facecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Arial&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;mathtext.cal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;serif&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;mathtext.rm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;serif&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;mathtext.it&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;serif:italic&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;mathtext.bf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;serif:bold&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;mathtext.fontset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cm&#39;</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.direction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;in&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.major.width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.direction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;in&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.major.width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.loc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;best&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.frameon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.framealpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.edgecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.fancybox&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;grid.color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;grid.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_mj</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_mj_greedy</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;greedy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;majority_vote&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_wr</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_wr_greedy</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;greedy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;weighted_random&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_dc</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_dc_greedy</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;greedy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;discard&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_me</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_me_greedy</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;greedy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;minimize_energy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/greedy_16_0.png" src="../../../_images/greedy_16_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sampleset_rand_init</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;discard&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/greedy_17_0.png" src="../../../_images/greedy_17_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="n">sampleset_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">sampleset_mj</span><span class="p">,</span> <span class="n">sampleset_wr</span><span class="p">,</span> <span class="n">sampleset_dc</span><span class="p">,</span> <span class="n">sampleset_me</span><span class="p">,</span>
+                  <span class="n">sampleset_mj_greedy</span><span class="p">,</span> <span class="n">sampleset_wr_greedy</span><span class="p">,</span> <span class="n">sampleset_dc_greedy</span><span class="p">,</span> <span class="n">sampleset_me_greedy</span><span class="p">,</span>
+                  <span class="n">sampleset_rand_init</span><span class="p">]</span>
+
+<span class="n">aggregations</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">samp</span> <span class="ow">in</span> <span class="n">sampleset_list</span><span class="p">:</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">samp</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">energy</span>
+    <span class="n">aggregations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">samp</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">num_occurrences</span><span class="p">)])</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;majority_vote&#39;</span><span class="p">,</span> <span class="s1">&#39;weighted_random&#39;</span><span class="p">,</span> <span class="s1">&#39;discard&#39;</span><span class="p">,</span> <span class="s1">&#39;minimize_energy&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;majority_vote(greegy)&#39;</span><span class="p">,</span> <span class="s1">&#39;weighted_random(greegy)&#39;</span><span class="p">,</span> <span class="s1">&#39;discard(greegy)&#39;</span><span class="p">,</span> <span class="s1">&#39;minimize_energy(greegy)&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;random init states(greedy)&#39;</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;energy(min)&#39;</span><span class="p">,</span> <span class="s1">&#39;energy(mean)&#39;</span><span class="p">,</span> <span class="s1">&#39;energy(max)&#39;</span><span class="p">,</span> <span class="s1">&#39;energy(std)&#39;</span><span class="p">,</span> <span class="s1">&#39;num_occurrences&#39;</span><span class="p">]</span>
+<span class="n">df_aggr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">aggregations</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">df_aggr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>energy(min)</th>
+      <th>energy(mean)</th>
+      <th>energy(max)</th>
+      <th>energy(std)</th>
+      <th>num_occurrences</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>majority_vote</th>
+      <td>-642.618362</td>
+      <td>-509.955511</td>
+      <td>-324.870500</td>
+      <td>50.847352</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>weighted_random</th>
+      <td>-642.618362</td>
+      <td>-500.773185</td>
+      <td>-354.848499</td>
+      <td>51.451491</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>discard</th>
+      <td>-526.492295</td>
+      <td>-521.051695</td>
+      <td>-515.611096</td>
+      <td>5.440600</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>minimize_energy</th>
+      <td>-664.536202</td>
+      <td>-531.262475</td>
+      <td>-403.476015</td>
+      <td>46.995649</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>majority_vote(greegy)</th>
+      <td>-718.968897</td>
+      <td>-663.864370</td>
+      <td>-519.651562</td>
+      <td>34.613129</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>weighted_random(greegy)</th>
+      <td>-718.968897</td>
+      <td>-663.951955</td>
+      <td>-540.121615</td>
+      <td>33.542041</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>discard(greegy)</th>
+      <td>-718.968897</td>
+      <td>-652.018753</td>
+      <td>-491.522041</td>
+      <td>36.380169</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>minimize_energy(greegy)</th>
+      <td>-718.968897</td>
+      <td>-662.864103</td>
+      <td>-527.712127</td>
+      <td>34.761184</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <th>random init states(greedy)</th>
+      <td>-718.968897</td>
+      <td>-652.001881</td>
+      <td>-491.522041</td>
+      <td>36.427022</td>
+      <td>1000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="supplement">
+<h2>Supplement<a class="headerlink" href="#supplement" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">greedy</span> <span class="kn">import</span> <span class="n">SteepestDescentSampler</span>
+
+<span class="n">SteepestDescentSampler</span> <span class="o">==</span> <span class="n">SteepestDescentSolver</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.system</span> <span class="kn">import</span> <span class="n">EmbeddingComposite</span>
+<span class="kn">from</span> <span class="nn">greedy</span> <span class="kn">import</span> <span class="n">SteepestDescentComposite</span>
+
+<span class="n">ec_sampler</span> <span class="o">=</span> <span class="n">EmbeddingComposite</span><span class="p">(</span><span class="n">dw_sampler</span><span class="p">,</span> <span class="n">find_embedding</span><span class="o">=</span><span class="n">find_embedding</span><span class="p">,</span>
+                                <span class="n">embedding_parameters</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">threads</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">greedy_sampler</span> <span class="o">=</span> <span class="n">SteepestDescentComposite</span><span class="p">(</span><span class="n">ec_sampler</span><span class="p">)</span>
+
+<span class="c1"># sampleset = greedy_sampler.sample(bqm, num_reads=100)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.embedding.pegasus</span> <span class="kn">import</span> <span class="n">find_clique_embedding</span><span class="p">,</span> <span class="n">pegasus_graph</span>
+
+<span class="n">adj</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">bqm</span><span class="o">.</span><span class="n">quadratic</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="c1"># %time embedding = find_clique_embedding(k=10, target_graph=dw_sampler.to_networkx_graph())</span>
+<span class="c1"># %time embedding = find_clique_embedding(k=10, target_graph=pegasus.pegasus_graph(m=2))</span>
+<span class="o">%</span><span class="k">time</span> embedding = find_clique_embedding(k=10, m=2)
+<span class="o">%</span><span class="k">time</span> bqm_embed = embed_bqm(bqm, embedding, dw_sampler.adjacency)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 29.1 ms, sys: 485 µs, total: 29.6 ms
+Wall time: 29.6 ms
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">DisconnectedChainError</span><span class="g g-Whitespace">                    </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">timed</span> <span class="n">exec</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+
+<span class="nn">~/.anyenv/envs/pyenv/versions/3.8.2/lib/python3.8/site-packages/dwave/embedding/transforms.py</span> in <span class="ni">embed_bqm</span><span class="nt">(source_bqm, embedding, target_adjacency, chain_strength, smear_vartype)</span>
+<span class="g g-Whitespace">    </span><span class="mi">374</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">375</span>         <span class="n">target_edges</span> <span class="o">=</span> <span class="n">adjacency_to_edges</span><span class="p">(</span><span class="n">target_adjacency</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">376</span>         <span class="n">embedding</span> <span class="o">=</span> <span class="n">EmbeddedStructure</span><span class="p">(</span><span class="n">target_edges</span><span class="p">,</span> <span class="n">embedding</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">377</span> 
+<span class="g g-Whitespace">    </span><span class="mi">378</span>     <span class="k">return</span> <span class="n">embedding</span><span class="o">.</span><span class="n">embed_bqm</span><span class="p">(</span><span class="n">source_bqm</span><span class="p">,</span> <span class="n">smear_vartype</span><span class="o">=</span><span class="n">smear_vartype</span><span class="p">,</span>
+
+<span class="nn">~/.anyenv/envs/pyenv/versions/3.8.2/lib/python3.8/site-packages/dwave/embedding/transforms.py</span> in <span class="ni">__init__</span><span class="nt">(self, target_edges, embedding)</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span>         <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">emb_u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">emb_u</span><span class="p">)</span> <span class="o">!=</span> <span class="n">disjoint_sets</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">99</span>                 <span class="k">raise</span> <span class="n">DisconnectedChainError</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span> 
+<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="nd">@property</span>
+
+<span class="ne">DisconnectedChainError</span>: chain for 0 is not connected
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.system</span> <span class="kn">import</span> <span class="n">DWaveCliqueSampler</span>
+
+<span class="n">dw_clique_sampler</span> <span class="o">=</span> <span class="n">DWaveCliqueSampler</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="s1">&#39;sigu-adv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampleset</span> <span class="o">=</span> <span class="n">dw_clique_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dw_clique_sampler</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;anneal_offsets&#39;: [&#39;parameters&#39;], &#39;anneal_schedule&#39;: [&#39;parameters&#39;], &#39;annealing_time&#39;: [&#39;parameters&#39;], &#39;answer_mode&#39;: [&#39;parameters&#39;], &#39;flux_biases&#39;: [&#39;parameters&#39;], &#39;flux_drift_compensation&#39;: [&#39;parameters&#39;], &#39;h_gain_schedule&#39;: [&#39;parameters&#39;], &#39;initial_state&#39;: [&#39;parameters&#39;], &#39;max_answers&#39;: [&#39;parameters&#39;], &#39;num_reads&#39;: [&#39;parameters&#39;], &#39;num_spin_reversal_transforms&#39;: [&#39;parameters&#39;], &#39;programming_thermalization&#39;: [&#39;parameters&#39;], &#39;readout_thermalization&#39;: [&#39;parameters&#39;], &#39;reduce_intersample_correlation&#39;: [&#39;parameters&#39;], &#39;reinitialize_state&#39;: [&#39;parameters&#39;], &#39;warnings&#39;: []}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dw_clique_sampler</span><span class="o">.</span><span class="n">largest_clique_size</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>120
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./research/quantum_annealing/dwave"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -1033,15 +1580,13 @@ Wall time: 29.6 ms
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

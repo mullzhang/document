@@ -41,7 +41,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -178,6 +178,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../machine_learning/simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -420,7 +425,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -476,7 +481,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -499,14 +504,39 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Lagrange Relaxation</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ex-k-hot-constraint">
+   Ex. K-hot constraint
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
               <div>
                 
   <div class="section" id="lagrange-relaxation">
 <h1>Lagrange Relaxation<a class="headerlink" href="#lagrange-relaxation" title="Permalink to this headline">¶</a></h1>
-<p>Lagrange relaxation using annealing samplers <span id="id1">[<a class="reference internal" href="#id8">Ohzeki, 2020</a>]</span>, called “Ohzeki method”.</p>
+<p>Lagrange relaxation using annealing samplers <span id="id1">[<a class="reference internal" href="#id9">Ohzeki, 2020</a>]</span>, called “Ohzeki method”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dimod</span>
@@ -719,7 +749,260 @@ E(\mathbf{x}, \mathbf{\nu}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} - \nu \left(\
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="id2"><dl class="citation">
-<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id1">Ohz20</a></span></dt>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id1">Ohz20</a></span></dt>
+<dd><p>Masayuki Ohzeki. Breaking limitation of quantum annealer in solving optimization problems under constraints. <em>Scientific Reports</em>, 10(1):3126, February 2020. URL: <a class="reference external" href="https://www.nature.com/articles/s41598-020-60022-5">https://www.nature.com/articles/s41598-020-60022-5</a> (visited on 2021-12-28).</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "notes"
+        },
+        kernelOptions: {
+            kernelName: "notes",
+            path: "./research/quantum_annealing/lagrange_method"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'notes'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="lagrange-relaxation">
+<h1>Lagrange Relaxation<a class="headerlink" href="#lagrange-relaxation" title="Permalink to this headline">¶</a></h1>
+<p>Lagrange relaxation using annealing samplers <span id="id1">[<a class="reference internal" href="#id9">Ohzeki, 2020</a>]</span>, called “Ohzeki method”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dimod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Original formulation:</p>
+<div class="math notranslate nohighlight">
+\[
+E(\mathbf{x}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} + \frac{1}{2} \sum_{\mu=1}^M \lambda_{\mu} \left(\sum_{i=1}^{N} F_{\mu i} x_{\mu i} - C_{\mu}\right)^{2}
+\]</div>
+<p>Lagrange relaxation:</p>
+<div class="math notranslate nohighlight">
+\[
+E(\mathbf{x}, \mathbf{\nu}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} - \sum_{\mu=1}^M \nu_{\mu} \left(\sum_{i=1}^{N} F_{\mu i} x_{\mu i} - C_{\mu}\right)
+\]</div>
+<p>Algorithm:</p>
+<ol class="simple">
+<li><p>Sampling <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> (with <span class="math notranslate nohighlight">\(\mathbf{\nu}\)</span> fixed)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+E(\mathbf{x}, \mathbf{\nu}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} - \sum_{\mu=1}^M \nu_{\mu} \sum_{i=1}^{N} F_{\mu i} x_{\mu i}
+\]</div>
+<ol class="simple">
+<li><p>Update lagrange multipliers <span class="math notranslate nohighlight">\(\mathbf{\nu}\)</span> (with <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> fixed)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\nu_{k}^{t+1}=\nu_{k}^{t}+\eta\left(C_{\mu}-\left\langle \sum_{i=1}^N F_{\mu i} x_{\mu i} \right\rangle\right)
+\]</div>
+<ol class="simple">
+<li><p>Repeat steps 1 and 2</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LagrangeRelax</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lagrange Relaxation using annealing samplers.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cost : numpy.ndarray</span>
+<span class="sd">        Cost function (QUBO matrix).</span>
+<span class="sd">    constraints: list</span>
+<span class="sd">        Equality constraints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">constraints</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cost : numpy.ndarray</span>
+<span class="sd">            Cost function (QUBO matrix).</span>
+<span class="sd">        constraints: list</span>
+<span class="sd">            Equality constraints.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">cost</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">constraints</span>
+
+    <span class="k">def</span> <span class="nf">_make_qubo_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">multipliers</span><span class="p">):</span>
+        <span class="n">qubo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">Fk</span><span class="p">,</span> <span class="n">Ck</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">Fki</span> <span class="ow">in</span> <span class="n">Fk</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">qubo</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">multipliers</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Fki</span>
+        <span class="k">return</span> <span class="n">qubo</span>
+
+    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_multipliers</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">,</span> <span class="n">sampler</span><span class="p">,</span> <span class="o">**</span><span class="n">sample_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        init_multipliers : numpy.ndarray</span>
+<span class="sd">            Initial multipliers, which shape is (# of vars, # of constraints).</span>
+<span class="sd">        eta: float</span>
+<span class="sd">            Step width of the gradient method.</span>
+<span class="sd">        num_iters: int</span>
+<span class="sd">            The number of iterations.</span>
+<span class="sd">        sampler: dimod.Sampler</span>
+<span class="sd">            Annealing sampler.</span>
+<span class="sd">        **sample_params:</span>
+<span class="sd">            Parameters of the above sampler.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            The history of multipliers updated in each iteration.</span>
+<span class="sd">        list</span>
+<span class="sd">            The history of sampleset attained by the sampler in each iteration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">multipliers</span> <span class="o">=</span> <span class="n">init_multipliers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">multipliers_hists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sampleset_hists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_iters</span><span class="p">)):</span>
+            <span class="c1"># Sampling</span>
+            <span class="n">qubo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_qubo_matrix</span><span class="p">(</span><span class="n">multipliers</span><span class="p">)</span>
+            <span class="n">sampleset</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">sample_qubo</span><span class="p">(</span><span class="n">qubo</span><span class="p">,</span> <span class="o">**</span><span class="n">sample_params</span><span class="p">)</span>
+
+            <span class="c1"># Update multipliers</span>
+            <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sampleset</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">Fk</span><span class="p">,</span> <span class="n">Ck</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">):</span>
+                <span class="n">Fk_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">Fki</span> <span class="o">*</span> <span class="n">sample_mean</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">Fki</span> <span class="ow">in</span> <span class="n">Fk</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+                <span class="n">multipliers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">eta</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ck</span> <span class="o">-</span> <span class="n">Fk_mean</span><span class="p">)</span>
+
+            <span class="n">multipliers_hists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">multipliers</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="n">sampleset_hists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sampleset</span><span class="p">)</span>
+
+            <span class="c1"># TODO: Convergence test</span>
+
+        <span class="k">return</span> <span class="n">multipliers_hists</span><span class="p">,</span> <span class="n">sampleset_hists</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ex-k-hot-constraint">
+<h2>Ex. K-hot constraint<a class="headerlink" href="#ex-k-hot-constraint" title="Permalink to this headline">¶</a></h2>
+<p>Original formulation:</p>
+<div class="math notranslate nohighlight">
+\[
+E(\mathbf{x}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} + \frac{\lambda}{2} \left(\sum_{i=1}^{N} x_{i} - K\right)^{2}
+\]</div>
+<p>Lagrange relaxation:</p>
+<div class="math notranslate nohighlight">
+\[
+E(\mathbf{x}, \mathbf{\nu}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} - \nu \left(\sum_{i=1}^{N} x_{i} - K\right)
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cost function (to minimize)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># The number of variables</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Rank</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>  <span class="c1"># QUBO matrix</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># K-hot constraint</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">constraints</span> <span class="o">=</span> <span class="p">[({</span><span class="n">i</span><span class="p">:</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)},</span> <span class="n">K</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using SA sampler</span>
+<span class="kn">from</span> <span class="nn">neal</span> <span class="kn">import</span> <span class="n">SimulatedAnnealingSampler</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">SimulatedAnnealingSampler</span><span class="p">()</span>
+
+<span class="c1"># Using D-Wave quantum annealer</span>
+<span class="c1"># from dwave.system import DWaveCliqueSampler</span>
+<span class="c1"># sampler = DWaveCliqueSampler(solver=&#39;&#39;, token=&#39;&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">init_multipliers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">constraints</span><span class="p">),</span> <span class="n">N</span><span class="p">))</span>
+
+<span class="n">lag_relax</span> <span class="o">=</span> <span class="n">LagrangeRelax</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">constraints</span><span class="p">)</span>
+<span class="n">multipliers_hists</span><span class="p">,</span> <span class="n">sampleset_hists</span> <span class="o">=</span> <span class="n">lag_relax</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">init_multipliers</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sampler</span><span class="o">=</span><span class="n">sampler</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████████████████| 20/20 [00:00&lt;00:00, 27.48it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">count_mean</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sampleset</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">sampleset</span> <span class="ow">in</span> <span class="n">sampleset_hists</span><span class="p">]</span>
+<span class="n">count_std</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sampleset</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">sampleset</span> <span class="ow">in</span> <span class="n">sampleset_hists</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampleset_hists</span><span class="p">)),</span> <span class="n">count_mean</span><span class="p">,</span> <span class="n">count_std</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;# of hot variables&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/lagrange_relax_9_0.png" src="../../../_images/lagrange_relax_9_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">multipliers_hists</span><span class="p">)),</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">mp</span> <span class="ow">in</span> <span class="n">multipliers_hists</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Multiplier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/lagrange_relax_10_0.png" src="../../../_images/lagrange_relax_10_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p id="id2"><dl class="citation">
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id1">Ohz20</a></span></dt>
 <dd><p>Masayuki Ohzeki. Breaking limitation of quantum annealer in solving optimization problems under constraints. <em>Scientific Reports</em>, 10(1):3126, February 2020. URL: <a class="reference external" href="https://www.nature.com/articles/s41598-020-60022-5">https://www.nature.com/articles/s41598-020-60022-5</a> (visited on 2021-12-28).</p>
 </dd>
 </dl>
@@ -771,15 +1054,13 @@ E(\mathbf{x}, \mathbf{\nu}) = \mathbf{x}^{\mathrm{T}} Q \mathbf{x} - \nu \left(\
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

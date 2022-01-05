@@ -41,7 +41,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -176,6 +176,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../machine_learning/simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -418,7 +423,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -474,7 +479,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -492,7 +497,149 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Bloom filter</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reference">
+   Reference
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="bloom-filter">
+<h1>Bloom filter<a class="headerlink" href="#bloom-filter" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Bloom_filter">https://en.wikipedia.org/wiki/Bloom_filter</a></p></li>
+<li><p><a class="reference external" href="https://www.slideshare.net/kumagi/bloom-filter-4178952">https://www.slideshare.net/kumagi/bloom-filter-4178952</a></p></li>
+<li><p><a class="reference external" href="https://kiririmode.hatenablog.jp/entry/20190214/1550131181">https://kiririmode.hatenablog.jp/entry/20190214/1550131181</a></p></li>
+<li><p><a class="reference external" href="https://medium.com/blockchain-engineer-blog/bitcoin%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E3%83%96%E3%83%AB%E3%83%BC%E3%83%A0%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF%E8%A7%A3%E8%AA%AC-87d5f6a0633d">https://medium.com/blockchain-engineer-blog/bitcoinを支えるブルームフィルタ解説-87d5f6a0633d</a></p></li>
+<li><p><a class="reference external" href="https://www.sambaiz.net/article/326/">https://www.sambaiz.net/article/326/</a></p></li>
+<li><p><a class="reference external" href="https://github.com/hiway/python-bloom-filter">https://github.com/hiway/python-bloom-filter</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_hash</span><span class="p">(</span><span class="n">hash_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">bytes</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="n">word_bytes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+    <span class="n">sum_ax</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">word_bytes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">]):</span>
+        <span class="n">sum_ax</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="mi">127</span> <span class="o">**</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sum_ax</span> <span class="o">%</span> <span class="n">size</span>
+
+<span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">hash_funcs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">bytes</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">]],</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">hash_funcs</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">make_hash</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dicts</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alphabets</span> <span class="o">=</span> <span class="s1">&#39;abcdefghijklmnopqrstuvwxyz&#39;</span>
+<span class="n">num_elements</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">elements</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">alphabets</span><span class="p">,</span> <span class="n">num_elements</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;t&#39;, &#39;n&#39;, &#39;q&#39;, &#39;e&#39;, &#39;b&#39;, &#39;v&#39;, &#39;k&#39;, &#39;z&#39;, &#39;h&#39;, &#39;i&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hash_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha224</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">]</span>
+
+<span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">15</span>
+
+<span class="n">dicts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">hash_funcs</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">make_hash</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ele</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">dicts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">search</span><span class="p">(</span><span class="n">hash_funcs</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./research/data_structure/probabilistic_data_structure"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -633,15 +780,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

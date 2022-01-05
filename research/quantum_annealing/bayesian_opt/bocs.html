@@ -41,7 +41,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -176,6 +176,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../machine_learning/simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -418,7 +423,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -474,7 +479,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -507,7 +512,282 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Bayesian Optimization of Combinatorial Structures</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#black-box-function">
+   Black-Box function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initial-data">
+   Initial data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#acquisition-function-with-qubo">
+   Acquisition function with QUBO
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#search-by-annealing">
+   Search by annealing
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="bayesian-optimization-of-combinatorial-structures">
+<h1>Bayesian Optimization of Combinatorial Structures<a class="headerlink" href="#bayesian-optimization-of-combinatorial-structures" title="Permalink to this headline">¶</a></h1>
+<p>Reference: <a class="reference external" href="https://altema.is.tohoku.ac.jp/QA4U/">https://altema.is.tohoku.ac.jp/QA4U/</a></p>
+<div class="section" id="black-box-function">
+<h2>Black-Box function<a class="headerlink" href="#black-box-function" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">dimod</span>
+
+<span class="k">class</span> <span class="nc">QUBOBlackBox</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">):</span>
+        <span class="n">qubo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">num_variables</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bqm</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BQM</span><span class="p">(</span><span class="n">qubo</span><span class="p">,</span> <span class="s1">&#39;BINARY&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bqm</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bqm</span><span class="o">.</span><span class="n">energies</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">PolyBlackBox</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_variables</span><span class="p">),</span> <span class="n">degrees</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bpm</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BinaryPolynomial</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="s1">&#39;BINARY&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bpm</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bpm</span><span class="o">.</span><span class="n">energies</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">my_black_box</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">energy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="n">num_variables</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">blackbox</span> <span class="o">=</span> <span class="n">QUBOBlackBox</span><span class="p">(</span><span class="n">num_variables</span><span class="p">)</span>
+<span class="c1"># blackbox = PolyBlackBox(num_variables)</span>
+<span class="c1"># blackbox = my_black_box</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initial-data">
+<h2>Initial data<a class="headerlink" href="#initial-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quadratic_feature</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">num_variables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_variables</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">):</span>
+            <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">generate_init_data</span><span class="p">(</span><span class="n">blackbox</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">,</span> <span class="n">num_init_data</span><span class="p">):</span>
+    <span class="n">X_init</span><span class="p">,</span> <span class="n">y_init</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_init_data</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">num_variables</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">blackbox</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">X_init</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">quadratic_feature</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">y_init</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_init</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_init</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_init_data</span><span class="p">(</span><span class="n">blackbox</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">,</span> <span class="n">num_init_data</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="acquisition-function-with-qubo">
+<h2>Acquisition function with QUBO<a class="headerlink" href="#acquisition-function-with-qubo" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">acquisitions_to_bqm</span><span class="p">(</span><span class="n">acquisitions</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">):</span>
+    <span class="n">qubo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">acquisitions</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="n">num_variables</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># 0: const</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_variables</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">):</span>
+            <span class="n">qubo</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">acquisitions</span><span class="p">[</span><span class="n">num_variables</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BQM</span><span class="p">(</span><span class="n">qubo</span><span class="p">,</span> <span class="s1">&#39;BINARY&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">fit_acquisitions</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="n">XX_lamI_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">XX_lamI_inv</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">XX_lamI_inv</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">avg</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="search-by-annealing">
+<h2>Search by annealing<a class="headerlink" href="#search-by-annealing" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neal</span> <span class="kn">import</span> <span class="n">SimulatedAnnealingSampler</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">SimulatedAnnealingSampler</span><span class="p">()</span>
+<span class="n">sampling_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">num_reads</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_sweeps</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">y_min_hists</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">energy_mean_hists</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">similarity_hists</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># only QUBOBlackBox</span>
+
+<span class="n">num_iters</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_iters</span><span class="p">)):</span>
+    <span class="n">acquisitions</span> <span class="o">=</span> <span class="n">fit_acquisitions</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">bqm</span> <span class="o">=</span> <span class="n">acquisitions_to_bqm</span><span class="p">(</span><span class="n">acquisitions</span><span class="p">,</span> <span class="n">num_variables</span><span class="p">)</span>
+    <span class="n">sampleset</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="o">**</span><span class="n">sampling_params</span><span class="p">)</span>
+    <span class="n">x_new</span> <span class="o">=</span> <span class="n">sampleset</span><span class="o">.</span><span class="n">lowest</span><span class="p">()</span><span class="o">.</span><span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span>
+    <span class="n">y_new</span> <span class="o">=</span> <span class="n">blackbox</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
+
+    <span class="n">y_min_hists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">y_new</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">quadratic_feature</span><span class="p">(</span><span class="n">x_new</span><span class="p">)])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_new</span><span class="p">)</span>
+
+    <span class="n">energy_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">bqm</span><span class="o">.</span><span class="n">energies</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">num_variables</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">blackbox</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">num_variables</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">energy_mean_hists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">energy_mean</span><span class="p">)</span>
+
+    <span class="c1"># only QUBOBlackBox</span>
+    <span class="n">similarity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">bqm</span><span class="o">.</span><span class="n">to_numpy_matrix</span><span class="p">()</span> <span class="o">-</span> <span class="n">blackbox</span><span class="o">.</span><span class="n">bqm</span><span class="o">.</span><span class="n">to_numpy_matrix</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">similarity_hists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">similarity</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 200/200 [00:02&lt;00:00, 77.19it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_min_hists</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iterations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (min)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/bocs_11_0.png" src="../../../_images/bocs_11_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_mean_hists</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iterations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (mean)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/bocs_12_0.png" src="../../../_images/bocs_12_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">similarity_hists</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iterations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;MSE of acquistion&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/bocs_13_0.png" src="../../../_images/bocs_13_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">bqm</span><span class="o">.</span><span class="n">to_numpy_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">blackbox</span><span class="o">.</span><span class="n">bqm</span><span class="o">.</span><span class="n">to_numpy_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/bocs_14_0.png" src="../../../_images/bocs_14_0.png" />
+<img alt="../../../_images/bocs_14_1.png" src="../../../_images/bocs_14_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./research/quantum_annealing/bayesian_opt"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -766,15 +1046,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

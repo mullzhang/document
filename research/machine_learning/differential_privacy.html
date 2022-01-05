@@ -41,7 +41,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -178,6 +178,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -420,7 +425,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -454,7 +459,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -472,7 +477,77 @@
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Differential Privacy</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+                <div>
+                    <h2> Contents </h2>
+                </div>
+                <nav aria-label="Page">
+                    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+                </nav>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="differential-privacy">
+<h1>Differential Privacy<a class="headerlink" href="#differential-privacy" title="Permalink to this headline">¶</a></h1>
+<p>差分プライバシーは、弱い秘匿性を満たすプライバシー定義のひとつとして提案された。</p>
+<p>弱い秘匿性は、任意の応答値の集合<span class="math notranslate nohighlight">\(S\)</span>と任意のデータベースの組<span class="math notranslate nohighlight">\(D,D^{\prime}\)</span>に対して、以下の関係式が成り立つことを指す。</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\operatorname{Pr}(m(D, q) \in S)}{\operatorname{Pr}\left(m\left(D^{\prime}, q\right) \in S\right)} \leq c
+\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(m\)</span>は対象としているメカニズムであり<span class="math notranslate nohighlight">\(q\)</span>、クエリを入力に取り応答値を返す関数、クエリ<span class="math notranslate nohighlight">\(q\)</span>は<span class="math notranslate nohighlight">\(D\)</span>を入力として出力<span class="math notranslate nohighlight">\(y\)</span>を与える関数、<span class="math notranslate nohighlight">\(c\)</span>は1より大きな定数である。</p>
+<p>2つの同じサイズのデータベース<span class="math notranslate nohighlight">\(D,D^{\prime}\)</span>に対して、異なるレコードの数を<span class="math notranslate nohighlight">\(d(D,D^{\prime})\)</span>とする。
+<span class="math notranslate nohighlight">\(\epsilon\)</span>-差分プライバシーでは、<span class="math notranslate nohighlight">\(d(D,D^{\prime})=1\)</span>となる任意の<span class="math notranslate nohighlight">\(D,D^{\prime},S\)</span>に対して、<span class="math notranslate nohighlight">\(m\)</span>が<span class="math notranslate nohighlight">\(c=\exp (\epsilon), \epsilon &gt; 0\)</span>となる上の式を満たす。</p>
+<p><span class="math notranslate nohighlight">\(\epsilon\)</span>-差分プライバシーを満たすメカニズムは、データベース上の1つのレコードをが変更されても、各データベースにおいてメカニズムを通じたクエリ出力の分布は大きく変化しない。そのため、出力をを受け取る利用者は、その値がどのデータベースから生成されたのか高い確信をもって推測することができない。</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>佐久間淳, データ解析におけるプライバシー保護, 第7-9章</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./research/machine_learning"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -541,15 +616,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

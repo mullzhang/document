@@ -41,7 +41,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -176,6 +176,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../machine_learning/simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -418,7 +423,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -474,12 +479,281 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>QPU access time</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+            </div>
+            
+              <div>
+                
+  <div class="section" id="qpu-access-time">
+<h1>QPU access time<a class="headerlink" href="#qpu-access-time" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">dimod</span>
+
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">J</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)}</span>
+
+<span class="n">bqm</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BinaryQuadraticModel</span><span class="o">.</span><span class="n">from_ising</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.system</span> <span class="kn">import</span> <span class="n">DWaveSampler</span><span class="p">,</span> <span class="n">EmbeddingComposite</span>
+
+
+<span class="n">info_hists_dw2000q</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">info_hists_dwadv</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;iteration:&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="n">dw2000q_sampler</span> <span class="o">=</span> <span class="n">EmbeddingComposite</span><span class="p">(</span><span class="n">DWaveSampler</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="s1">&#39;sigu-2000q&#39;</span><span class="p">))</span>
+    <span class="n">dwadv_sampler</span> <span class="o">=</span> <span class="n">EmbeddingComposite</span><span class="p">(</span><span class="n">DWaveSampler</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="s1">&#39;sigu-adv&#39;</span><span class="p">))</span>
+
+    <span class="n">sampleset_dw2000q</span> <span class="o">=</span> <span class="n">dw2000q_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">sampleset_dwadv</span> <span class="o">=</span> <span class="n">dwadv_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="n">info_hists_dw2000q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sampleset_dw2000q</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;timing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="n">info_hists_dwadv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sampleset_dwadv</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;timing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iteration: 0
+iteration: 1
+iteration: 2
+iteration: 3
+iteration: 4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="n">timing_infos</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">timing_infos</span><span class="p">[</span><span class="s1">&#39;2000Q(mean)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">info_hists_dw2000q</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">timing_infos</span><span class="p">[</span><span class="s1">&#39;2000Q(std)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">info_hists_dw2000q</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">timing_infos</span><span class="p">[</span><span class="s1">&#39;Advantage(mean)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">info_hists_dwadv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">timing_infos</span><span class="p">[</span><span class="s1">&#39;Advantage(std)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">info_hists_dwadv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">sampleset_dw2000q</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;timing&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">df_timing_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">timing_infos</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df_timing_info</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2000Q(mean)</th>
+      <th>2000Q(std)</th>
+      <th>Advantage(mean)</th>
+      <th>Advantage(std)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>qpu_sampling_time</th>
+      <td>238940.0</td>
+      <td>0.000000</td>
+      <td>128852.0</td>
+      <td>12294.425403</td>
+    </tr>
+    <tr>
+      <th>qpu_anneal_time_per_sample</th>
+      <td>20.0</td>
+      <td>0.000000</td>
+      <td>20.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>qpu_readout_time_per_sample</th>
+      <td>198.0</td>
+      <td>0.000000</td>
+      <td>88.0</td>
+      <td>12.083046</td>
+    </tr>
+    <tr>
+      <th>qpu_access_time</th>
+      <td>250181.6</td>
+      <td>14.263239</td>
+      <td>154888.0</td>
+      <td>12294.912655</td>
+    </tr>
+    <tr>
+      <th>qpu_access_overhead_time</th>
+      <td>6863.4</td>
+      <td>424.893210</td>
+      <td>129140.0</td>
+      <td>140525.454538</td>
+    </tr>
+    <tr>
+      <th>qpu_programming_time</th>
+      <td>11241.6</td>
+      <td>14.263239</td>
+      <td>26036.0</td>
+      <td>3.633180</td>
+    </tr>
+    <tr>
+      <th>qpu_delay_time_per_sample</th>
+      <td>21.0</td>
+      <td>0.000000</td>
+      <td>21.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>post_processing_overhead_time</th>
+      <td>1921.6</td>
+      <td>385.061346</td>
+      <td>9138.8</td>
+      <td>3283.009802</td>
+    </tr>
+    <tr>
+      <th>total_post_processing_time</th>
+      <td>5579.2</td>
+      <td>457.483289</td>
+      <td>294.0</td>
+      <td>160.278508</td>
+    </tr>
+    <tr>
+      <th>total_real_time</th>
+      <td>250181.6</td>
+      <td>14.263239</td>
+      <td>154888.0</td>
+      <td>12294.912655</td>
+    </tr>
+    <tr>
+      <th>run_time_chip</th>
+      <td>238940.0</td>
+      <td>0.000000</td>
+      <td>128852.0</td>
+      <td>12294.425403</td>
+    </tr>
+    <tr>
+      <th>anneal_time_per_run</th>
+      <td>20.0</td>
+      <td>0.000000</td>
+      <td>20.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>readout_time_per_run</th>
+      <td>198.0</td>
+      <td>0.000000</td>
+      <td>88.0</td>
+      <td>12.083046</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">info_hists_dw2000q</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[238940     20    198 250172   6316  11232     21   1378   5101 250172
+  238940     20    198]
+ [238940     20    198 250193   6997  11253     21   2467   5326 250193
+  238940     20    198]
+ [238940     20    198 250204   6592  11264     21   2163   6150 250204
+  238940     20    198]
+ [238940     20    198 250170   6834  11230     21   1626   6115 250170
+  238940     20    198]
+ [238940     20    198 250169   7578  11229     21   1974   5204 250169
+  238940     20    198]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">info_hists_dwadv</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[130900     20     90 156942  23032  26042     21  14514    110 156942
+  130900     20     90]
+ [108540     20     68 134572   8441  26032     21   4390     96 134572
+  108540     20     68]
+ [122700     20     82 148738 332056  26038     21   9770    355 148738
+  122700     20     82]
+ [139820     20     99 165855  15687  26035     21   9303    463 165855
+  139820     20     99]
+ [142300     20    101 168333 266484  26033     21   7717    446 168333
+  142300     20    101]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./research/quantum_annealing/dwave"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -760,15 +1034,13 @@ iteration: 4
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

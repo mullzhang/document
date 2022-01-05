@@ -41,7 +41,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -176,6 +176,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../machine_learning/federated_learning.html">
      Federated Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../machine_learning/simple_perceptron.html">
+     Storage capacity of a simple perceptron
     </a>
    </li>
   </ul>
@@ -418,7 +423,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -474,12 +479,270 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>Chain-Break Resolution</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+            </div>
+            
+              <div>
+                
+  <div class="section" id="chain-break-resolution">
+<h1>Chain-Break Resolution<a class="headerlink" href="#chain-break-resolution" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>majority_vote (default)</p></li>
+<li><p>weighted_random</p></li>
+<li><p>discard</p></li>
+<li><p>MinimizeEnergy</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># Problem instance</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">J</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)}</span>
+<span class="n">adjacency</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="mf">1.0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">J</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">minorminer</span> <span class="kn">import</span> <span class="n">find_embedding</span>
+<span class="kn">from</span> <span class="nn">dwave.embedding</span> <span class="kn">import</span> <span class="n">embed_ising</span>
+<span class="kn">from</span> <span class="nn">dwave.system</span> <span class="kn">import</span> <span class="n">DWaveSampler</span>
+
+<span class="c1"># Embed the problem</span>
+<span class="n">dw_sampler</span> <span class="o">=</span> <span class="n">DWaveSampler</span><span class="p">()</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">find_embedding</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <span class="n">dw_sampler</span><span class="o">.</span><span class="n">edgelist</span><span class="p">)</span>
+<span class="n">h0</span><span class="p">,</span> <span class="n">emb_j</span> <span class="o">=</span> <span class="n">embed_ising</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="n">dw_sampler</span><span class="o">.</span><span class="n">adjacency</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.cloud</span> <span class="kn">import</span> <span class="n">Client</span>
+
+<span class="c1"># Solve the problem</span>
+<span class="k">with</span> <span class="n">Client</span><span class="o">.</span><span class="n">from_config</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_solver</span><span class="p">()</span>
+    <span class="n">computation</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">sample_ising</span><span class="p">(</span><span class="n">h0</span><span class="p">,</span> <span class="n">emb_j</span><span class="p">,</span> <span class="n">num_reads</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dimod</span>
+
+<span class="n">bqm</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">BinaryQuadraticModel</span><span class="o">.</span><span class="n">from_ising</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+<span class="n">chains</span> <span class="o">=</span> <span class="p">[</span><span class="n">embedding</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">embedding</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.embedding.chain_breaks</span> <span class="kn">import</span> <span class="n">majority_vote</span><span class="p">,</span> <span class="n">discard</span><span class="p">,</span> <span class="n">weighted_random</span><span class="p">,</span> <span class="n">broken_chains</span><span class="p">,</span> <span class="n">MinimizeEnergy</span>
+
+<span class="c1"># Unembed the problem</span>
+<span class="n">cbm</span> <span class="o">=</span> <span class="n">MinimizeEnergy</span><span class="p">(</span><span class="n">bqm</span><span class="p">,</span> <span class="n">embedding</span><span class="p">)</span>
+<span class="n">unembedded_minimize_energy</span><span class="p">,</span> <span class="n">idx_minimize_energy</span> <span class="o">=</span> <span class="n">cbm</span><span class="p">(</span><span class="n">computation</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">chains</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unembedded_majority_vote</span><span class="p">,</span> <span class="n">idx_majority_vote</span> <span class="o">=</span> <span class="n">majority_vote</span><span class="p">(</span><span class="n">computation</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">chains</span><span class="p">)</span>
+<span class="n">unembedded_weighted_random</span><span class="p">,</span> <span class="n">idx_weighted_random</span> <span class="o">=</span> <span class="n">weighted_random</span><span class="p">(</span><span class="n">computation</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">chains</span><span class="p">)</span>
+<span class="n">unembedded_discard</span><span class="p">,</span> <span class="n">idx_discard</span> <span class="o">=</span> <span class="n">discard</span><span class="p">(</span><span class="n">computation</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">chains</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">dimod</span><span class="o">.</span><span class="n">ising_energy</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">unembedded_majority_vote</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;majority vote&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">dimod</span><span class="o">.</span><span class="n">ising_energy</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">unembedded_weighted_random</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;weighted random&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">dimod</span><span class="o">.</span><span class="n">ising_energy</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">unembedded_minimize_energy</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;minimize energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">dimod</span><span class="o">.</span><span class="n">ising_energy</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">unembedded_discard</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;discard&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/chain_break_resolution_7_0.png" src="../../../_images/chain_break_resolution_7_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">broken_chains</span><span class="p">(</span><span class="n">computation</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">chains</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True, False, False,  True,  True,  True,  True,
+         True,  True, False,  True, False,  True,  True,  True,  True,
+        False,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True, False,
+         True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+        False,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True, False,  True, False,
+         True,  True,  True,  True,  True, False,  True, False,  True,
+        False,  True, False, False,  True],
+       [ True,  True, False,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True, False,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True, False,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True],
+       [ True,  True, False,  True,  True,  True,  True,  True,  True,
+         True, False,  True,  True, False,  True,  True,  True,  True,
+         True,  True, False,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True, False,
+         True,  True,  True,  True,  True],
+       [ True,  True, False,  True,  True,  True,  True,  True,  True,
+         True, False,  True,  True, False,  True,  True,  True,  True,
+         True,  True, False,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True, False,
+         True,  True,  True,  True,  True],
+       [ True,  True,  True, False,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True, False,  True,  True,  True,
+         True,  True,  True,  True,  True],
+       [ True,  True,  True, False,  True,  True,  True, False,  True,
+         True,  True,  True, False,  True, False,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+        False,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True, False,  True,  True,  True, False,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+        False,  True, False,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True, False,
+         True,  True,  True,  True, False],
+       [ True,  True, False,  True,  True,  True,  True,  True,  True,
+         True,  True,  True, False,  True,  True, False,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True, False,
+         True,  True,  True,  True, False, False,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True, False,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True,  True, False,  True]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dwave.embedding</span> <span class="kn">import</span> <span class="n">unembed_sampleset</span>
+
+<span class="n">embedded</span> <span class="o">=</span> <span class="n">dimod</span><span class="o">.</span><span class="n">SampleSet</span><span class="o">.</span><span class="n">from_samples</span><span class="p">(</span>
+    <span class="n">computation</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">dimod</span><span class="o">.</span><span class="n">SPIN</span><span class="p">,</span> <span class="n">computation</span><span class="o">.</span><span class="n">energies</span><span class="p">)</span>
+<span class="n">unembed_sampleset</span><span class="p">(</span><span class="n">embedded</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="n">bqm</span><span class="p">)</span>  <span class="c1"># default: majority_vote</span>
+<span class="c1"># unembed_sampleset(embedded, embedding, bqm, chain_break_method=majority_vote)</span>
+<span class="c1"># unembed_sampleset(embedded, embedding, bqm, chain_break_method=weighted_random)</span>
+<span class="c1"># unembed_sampleset(embedded, embedding, bqm, chain_break_method=discard)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SampleSet(rec.array([([0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0], -17., 1),
+           ([0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0],  -7., 1),
+           ([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],  -6., 1),
+           ([0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], -20., 1),
+           ([0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], -19., 1),
+           ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], -10., 1),
+           ([0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], -22., 1),
+           ([0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0], -34., 1),
+           ([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],  -4., 1),
+           ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0],  -8., 1)],
+          dtype=[(&#39;sample&#39;, &#39;i1&#39;, (50,)), (&#39;energy&#39;, &#39;&lt;f8&#39;), (&#39;num_occurrences&#39;, &#39;&lt;i8&#39;)]), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49], {}, &#39;SPIN&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unembed_sampleset</span><span class="p">(</span><span class="n">embedded</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="n">bqm</span><span class="p">,</span> <span class="n">chain_break_method</span><span class="o">=</span><span class="n">cbm</span><span class="p">)</span>  <span class="c1"># cbm = MinimizeEnergy(bqm, embedding)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SampleSet(rec.array([([ 1, -1, -1, -1,  1,  1, -1,  1, -1,  1,  1, -1,  1, -1, -1, -1, -1,  1, -1, -1,  1, -1,  1,  1,  1,  1, -1, -1, -1,  1, -1,  1, -1,  1,  1, -1, -1, -1, -1,  1,  1,  1,  1,  1, -1, -1, -1,  1,  1,  1], -179., 1),
+           ([-1, -1, -1, -1,  1,  1, -1,  1, -1, -1,  1, -1,  1, -1,  1, -1,  1,  1, -1, -1,  1, -1,  1,  1, -1,  1,  1,  1,  1,  1, -1, -1, -1,  1,  1, -1, -1,  1, -1,  1, -1,  1, -1, -1, -1, -1,  1,  1,  1,  1], -179., 1),
+           ([-1, -1, -1,  1, -1, -1, -1,  1,  1, -1,  1, -1, -1, -1, -1,  1, -1, -1, -1,  1, -1, -1,  1,  1, -1,  1,  1, -1,  1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1,  1,  1,  1, -1,  1, -1,  1,  1,  1, -1], -187., 1),
+           ([ 1,  1,  1, -1,  1, -1, -1, -1, -1,  1, -1,  1,  1, -1,  1, -1,  1,  1,  1, -1,  1,  1,  1,  1,  1, -1, -1,  1,  1,  1, -1,  1,  1, -1,  1,  1, -1, -1, -1,  1,  1, -1, -1,  1, -1,  1, -1, -1, -1,  1], -193., 1),
+           ([ 1,  1,  1, -1,  1, -1, -1, -1, -1,  1, -1,  1,  1, -1,  1, -1,  1,  1,  1, -1,  1,  1,  1,  1,  1, -1, -1,  1,  1,  1, -1,  1,  1, -1,  1,  1, -1, -1, -1,  1,  1, -1, -1,  1, -1,  1, -1, -1, -1,  1], -193., 1),
+           ([ 1,  1,  1, -1, -1,  1,  1, -1,  1,  1, -1,  1,  1,  1,  1,  1,  1, -1,  1,  1, -1,  1, -1, -1,  1, -1,  1,  1, -1,  1,  1, -1,  1, -1, -1,  1, -1, -1, -1, -1, -1, -1,  1,  1,  1,  1,  1, -1, -1, -1], -171., 1),
+           ([ 1,  1,  1, -1,  1,  1, -1, -1, -1,  1,  1,  1,  1, -1,  1, -1, -1,  1, -1, -1,  1,  1,  1,  1,  1, -1, -1,  1, -1,  1, -1,  1, -1,  1,  1,  1, -1, -1, -1,  1,  1, -1, -1,  1, -1, -1, -1,  1,  1,  1], -205., 1),
+           ([-1, -1,  1,  1,  1, -1,  1,  1, -1,  1,  1, -1,  1,  1, -1,  1,  1, -1,  1, -1,  1, -1,  1,  1, -1, -1, -1, -1,  1, -1,  1,  1,  1, -1, -1,  1,  1,  1,  1,  1,  1,  1,  1,  1, -1,  1,  1, -1, -1, -1], -185., 1),
+           ([-1, -1, -1,  1, -1,  1,  1,  1,  1, -1,  1, -1,  1,  1, -1, -1,  1, -1, -1,  1, -1, -1, -1, -1, -1,  1,  1, -1, -1,  1,  1, -1,  1,  1, -1, -1,  1,  1,  1, -1, -1,  1,  1, -1,  1,  1,  1,  1,  1, -1], -175., 1),
+           ([-1, -1, -1,  1, -1, -1,  1,  1,  1, -1, -1,  1, -1,  1, -1,  1,  1, -1,  1,  1, -1,  1, -1, -1, -1, -1,  1, -1,  1, -1,  1, -1,  1, -1, -1, -1,  1,  1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1], -203., 1)],
+          dtype=[(&#39;sample&#39;, &#39;i1&#39;, (50,)), (&#39;energy&#39;, &#39;&lt;f8&#39;), (&#39;num_occurrences&#39;, &#39;&lt;i8&#39;)]), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49], {}, &#39;SPIN&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./research/quantum_annealing/dwave"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -749,15 +1012,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By mullzhang<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By mullzhang<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 
