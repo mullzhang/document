@@ -24,6 +24,7 @@ parts:
       sections:
       - file: research/machine_learning/differential_privacy
       - file: research/machine_learning/federated_learning
+      - file: research/machine_learning/simple_perceptron
 
     - file: research/numerical_calculation/index
       sections:
