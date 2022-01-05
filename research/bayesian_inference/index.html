@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Graph Thoery &#8212; mullzhang&#39;s notes</title>
+    <title>Bayesian inference &#8212; mullzhang&#39;s notes</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,8 +51,8 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Modularity" href="modularity.html" />
-    <link rel="prev" title="SAT filter" href="../data_structure/probabilistic_data_structure/sat_filter.html" />
+    <link rel="next" title="Belief Propagation" href="belief_propagation.html" />
+    <link rel="prev" title="Fixing the number of vehicles in Google OR-Tools" href="../combinatorial_optimization/vehicle_routing_problem/fix_vehicles_ortools.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -136,23 +136,23 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../graph_theory/index.html">
    Graph Thoery
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="modularity.html">
+    <a class="reference internal" href="../graph_theory/modularity.html">
      Modularity
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="elimination_graph.html">
+    <a class="reference internal" href="../graph_theory/elimination_graph.html">
      Elimination Graph
     </a>
    </li>
@@ -353,18 +353,18 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../bayesian_inference/index.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
    Bayesian inference
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
   <label for="toctree-checkbox-14">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../bayesian_inference/belief_propagation.html">
+    <a class="reference internal" href="belief_propagation.html">
      Belief Propagation
     </a>
    </li>
@@ -435,7 +435,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/research/graph_theory/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../../_sources/research/bayesian_inference/index.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -455,7 +455,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/graph_theory/index.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/mullzhang/notes/issues/new?title=Issue%20on%20page%20%2Fresearch/bayesian_inference/index.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -481,7 +481,7 @@
 </div>
     <!-- Table of contents that is only displayed when printing the page -->
     <div id="jb-print-docs-body" class="onlyprint">
-        <h1>Graph Thoery</h1>
+        <h1>Bayesian inference</h1>
         <!-- Table of contents -->
         <div id="print-main-content" class="row">
             <div class="col-12 col-md-12 pl-md-5 pr-md-5">
@@ -491,12 +491,11 @@
             
               <div>
                 
-  <div class="section" id="graph-thoery">
-<h1>Graph Thoery<a class="headerlink" href="#graph-thoery" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="bayesian-inference">
+<h1>Bayesian inference<a class="headerlink" href="#bayesian-inference" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modularity.html">Modularity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="elimination_graph.html">Elimination Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="belief_propagation.html">Belief Propagation</a></li>
 </ul>
 </div>
 </div>
@@ -514,7 +513,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./research/graph_theory"
+            path: "./research/bayesian_inference"
         },
         predefinedOutput: true
     }
@@ -531,12 +530,11 @@
         
               <div>
                 
-  <div class="section" id="graph-thoery">
-<h1>Graph Thoery<a class="headerlink" href="#graph-thoery" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="bayesian-inference">
+<h1>Bayesian inference<a class="headerlink" href="#bayesian-inference" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modularity.html">Modularity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="elimination_graph.html">Elimination Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="belief_propagation.html">Belief Propagation</a></li>
 </ul>
 </div>
 </div>
@@ -554,7 +552,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./research/graph_theory"
+            path: "./research/bayesian_inference"
         },
         predefinedOutput: true
     }
@@ -566,17 +564,17 @@
         
             <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="../data_structure/probabilistic_data_structure/sat_filter.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../combinatorial_optimization/vehicle_routing_problem/fix_vehicles_ortools.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">SAT filter</p>
+            <p class="prev-next-title">Fixing the number of vehicles in Google OR-Tools</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="modularity.html" title="next page">
+    <a class='right-next' id="next-link" href="belief_propagation.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Modularity</p>
+        <p class="prev-next-title">Belief Propagation</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
