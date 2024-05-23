@@ -1,0 +1,4 @@
+# Mathematical Optimization
+
+```{tableofcontents}
+```
