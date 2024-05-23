@@ -59,6 +59,10 @@ parts:
         sections:
         - file: research/combinatorial_optimization/vehicle_routing_problem/fix_vehicles_ortools
 
+    - file: research/mathematical_optimization/index
+      sections:
+      - file: research/mathematical_optimization/column_generation_vrp
+
     - file: research/bayesian_inference/index
       sections:
       - file: research/bayesian_inference/belief_propagation

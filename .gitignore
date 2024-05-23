@@ -146,6 +146,3 @@ cython_debug/
 
 # build files
 _build
-
-# poetry
-poetry.lock
